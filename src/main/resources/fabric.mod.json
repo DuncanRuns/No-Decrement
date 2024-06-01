@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "nodecrement",
+  "version": "${version}",
+  "name": "No Decrement",
+  "description": "Cancels the decrement function of items.",
+  "authors": [
+    "DuncanRuns"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/nodecrement/icon.png",
+  "environment": "*",
+  "mixins": [
+    "nodecrement.mixins.json"
+  ]
+}

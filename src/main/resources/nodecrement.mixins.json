@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "package": "me.duncanruns.nodecrement.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockInteractorItemMixin",
+    "BlockItemMixin",
+    "ConsumableItemMixin",
+    "ConvertingConsumableItemMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "PotionItemMixin",
+    "RespawnAnchorBlockMixin"
+  ],
+  "client": [
+    "ClientPlayerEntityMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -4,6 +4,8 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -14,6 +16,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,6 +27,9 @@ import static me.duncanruns.nodecrement.Helper.using;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
+    @Shadow
+    public abstract Item getItem();
+
     /**
      * @author DuncanRuns
      * @reason lol no damage!!!
@@ -85,6 +91,8 @@ public abstract class ItemStackMixin {
 
     @Inject(method = "decrement", at = @At("HEAD"), cancellable = true)
     private void noDecrement(int amount, CallbackInfo ci) {
+        //noinspection ConstantValue
+        if (getItem() instanceof BucketItem) return;
         if (using.get()) ci.cancel();
     }
 }

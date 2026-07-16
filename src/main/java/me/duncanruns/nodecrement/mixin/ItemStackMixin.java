@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-import static me.duncanruns.nodecrement.Helper.using;
+import static me.duncanruns.nodecrement.Helper.*;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
@@ -41,58 +41,57 @@ public abstract class ItemStackMixin {
 
     @WrapMethod(method = "use")
     private TypedActionResult<ItemStack> wrapUse(World world, PlayerEntity user, Hand hand, Operation<TypedActionResult<ItemStack>> original) {
-        using.set(true);
+        enterNoDecrementArea();
         try {
             return original.call(world, user, hand);
         } finally {
-            using.set(false);
+            exitNoDecrementArea();
         }
     }
 
     @WrapMethod(method = "useOnBlock")
     private ActionResult wrapUseOnBlock(ItemUsageContext context, Operation<ActionResult> original) {
-        using.set(true);
+        enterNoDecrementArea();
         try {
             return original.call(context);
         } finally {
-            using.set(false);
+            exitNoDecrementArea();
         }
     }
 
     @WrapMethod(method = "useOnEntity")
     private ActionResult wrapUseOnEntity(PlayerEntity user, LivingEntity entity, Hand hand, Operation<ActionResult> original) {
-        using.set(true);
+        enterNoDecrementArea();
         try {
             return original.call(user, entity, hand);
         } finally {
-            using.set(false);
+            exitNoDecrementArea();
         }
     }
 
     @WrapMethod(method = "finishUsing")
     private ItemStack wrapFinishUsing(World world, LivingEntity user, Operation<ItemStack> original) {
-        using.set(true);
+        enterNoDecrementArea();
         try {
             return original.call(world, user);
         } finally {
-            using.set(false);
+            exitNoDecrementArea();
         }
     }
 
     @WrapMethod(method = "onStoppedUsing")
     private void wrapOnStoppedUsing(World world, LivingEntity user, int remainingUseTicks, Operation<Void> original) {
-        using.set(true);
+        enterNoDecrementArea();
         try {
             original.call(world, user, remainingUseTicks);
         } finally {
-            using.set(false);
+            exitNoDecrementArea();
         }
     }
 
     @Inject(method = "decrement", at = @At("HEAD"), cancellable = true)
     private void noDecrement(int amount, CallbackInfo ci) {
-        //noinspection ConstantValue
         if (getItem() instanceof BucketItem) return;
-        if (using.get()) ci.cancel();
+        if (isNotDecrementing()) ci.cancel();
     }
 }

@@ -3,6 +3,7 @@
   "package": "me.duncanruns.nodecrement.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractBlockMixin",
     "ItemStackMixin",
     "PlayerEntityMixin"
   ],

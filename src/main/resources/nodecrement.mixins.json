@@ -5,6 +5,7 @@
   "mixins": [
     "AbstractBlockMixin",
     "ItemStackMixin",
+    "LivingEntityMixin",
     "PlayerEntityMixin"
   ],
   "client": [
